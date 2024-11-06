@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  notifications_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"  # Expone la API REST en el puerto 8000
+    environment:
+      - DATABASE_URL=sqlite:///./test.db
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    command: ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  notifications_consumer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=sqlite:///./test.db
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    command: ["python", "rabbitmq_consumer.py"]

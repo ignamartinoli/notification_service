@@ -1,0 +1,18 @@
+message SendNotificationRequest {
+  string usuarioId = 1;
+  string mensaje = 2;
+  string tipo = 3; // "email" o "sms"
+}
+
+message Notification {
+  string id = 1;
+  string usuarioId = 2;
+  string mensaje = 3;
+  string tipo = 4;
+  string fechaEnvio = 5;
+  string estado = 6;
+}
+
+service NotificationService {
+  rpc SendNotification(SendNotificationRequest) returns (Notification);
+}
