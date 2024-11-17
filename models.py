@@ -1,3 +1,5 @@
+"""
+
 from sqlalchemy import create_engine, Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -20,3 +22,4 @@ class Notification(Base):
 
 
 Base.metadata.create_all(bind=engine)
+"""

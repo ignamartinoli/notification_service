@@ -1,10 +1,20 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import uuid
-from models import Notification, SessionLocal
+#from fastapi import FastAPI, HTTPException
+#from pydantic import BaseModel
+#import uuid
+#from models import Notification, SessionLocal
+
+from fastapi import FastAPI
+from routes.notification import notification
 
 app = FastAPI()
 
+@app.get("/")
+def root():
+    return "Bienvenido a la API del Servicio de Notificaciones"
+
+app.include_router(notification)
+
+"""
 
 class NotificationRequest(BaseModel):
     usuario_id: str
@@ -35,3 +45,4 @@ def get_notification(id: str):
     if notification is None:
         raise HTTPException(status_code=404, detail="Notificación no encontrada")
     return notification
+"""
