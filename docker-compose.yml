@@ -15,7 +15,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"  # Expone la API REST en el puerto 8000
+      - "8000:8000" # Expone la API REST en el puerto 8000
     environment:
       - DATABASE_URL=sqlite:///./test.db
       - RABBITMQ_HOST=rabbitmq

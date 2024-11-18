@@ -37,3 +37,30 @@ def create_notification(request: NotificationRequest):
     
     finally:
         db.close()
+
+#Función para devolver todas las notificaciones registradas
+def get_all_notifications():
+    db = next(get_db())
+    try:
+        #Se obtienen todas las notificaciones
+        notifications = db.query(Notificacion).all()
+        return notifications
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al intentar obtener las notificaciones: {str(e)}")
+    finally:
+        db.close()
+
+#Función para devolver una notificación en base a su ID
+def get_notification_by_id(id: str):
+    db = next(get_db())
+    try:
+        notification = db.query(Notificacion).filter(Notificacion.id == id).first()
+        if not notification:
+            raise HTTPException(status_code=404, detail="Notificación no encontrada")
+        return notification
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al intentar obtener una notificación: {str(e)}")
+    finally:
+        db.close()

@@ -1,3 +1,4 @@
+""""
 import pika
 import time
 import os
@@ -49,3 +50,4 @@ def callback(ch, method, properties, body):
 channel.basic_consume(queue="pedidos.creados", on_message_callback=callback)
 print("Esperando mensajes en la cola 'pedidos.creados'")
 channel.start_consuming()
+"""
