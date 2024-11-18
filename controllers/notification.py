@@ -5,6 +5,8 @@ from models import Notificacion
 from schemas import NotificationRequest, TipoNotificacion
 from config.db import get_db
 from fastapi import HTTPException
+from rabbitMQ.producer import send_notification_message
+from datetime import datetime
 
 #Función para crear una nueva notificación
 def create_notification(request: NotificationRequest):
@@ -29,7 +31,19 @@ def create_notification(request: NotificationRequest):
         db.commit()
         db.refresh(new_notification)
 
+        #Se envía la notificación al productor de RabbitMQ
+        message = {
+            "idNotificación": new_notification.id,
+            "usuarioId": new_notification.usuario_id,
+            "estado": "enviado",
+            "fechaEnvio": datetime.utcnow().isoformat() #Se utiliza la fecha actual
+        }
+        send_notification_message(message)
+
         return new_notification
+    
+    except HTTPException as e:
+        raise e
     
     except Exception as e:
         db.rollback()
