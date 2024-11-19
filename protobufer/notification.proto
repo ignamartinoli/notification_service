@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package notification;
+
+// Definición del mensaje para la solicitud de notificación
+message SendNotificationRequest {
+    string usuarioId = 1;
+    string mensaje = 2;
+    string tipo = 3; // "email" o "sms"
+}
+
+// Definición del mensaje para la respuesta de la notificación
+message Notification {
+    string id = 1;
+    string usuarioId = 2;
+    string mensaje = 3;
+    string tipo = 4;
+    string fechaEnvio = 5;
+    string estado = 6;
+}
+
+// Definición del servicio de notificación
+service NotificationService {
+    rpc SendNotification(SendNotificationRequest) returns (Notification);
+}

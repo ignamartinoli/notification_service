@@ -1,3 +1,2 @@
-from .notification import Notificacion
-
-__all__ = ["Notificacion"]
+from .notification import Notificacion, EstadoNotificacion
+__all__ = ["Notificacion", "EstadoNotificacion"]
