@@ -17,6 +17,7 @@ def connect_to_rabbitmq():
             print("Conectado a RabbitMQ")
             break
         except pika.exceptions.AMQPConnectionError:
+            print("Procesando...")
             print(f"Intento {attempt + 1} de conexión a RabbitMQ fallido. Reintentando en 5 segundos...")
             time.sleep(5)
     
